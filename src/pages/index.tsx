@@ -1,6 +1,6 @@
 import { NextPage } from 'next';
 
 const HomePage: NextPage = () => {
-  return <h2>Hello Next.js</h2>;
+  return <h2>Joer</h2>;
 };
 export default HomePage;
