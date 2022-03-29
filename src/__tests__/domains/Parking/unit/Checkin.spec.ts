@@ -6,10 +6,21 @@ describe('Checkin', () => {
     const ticketRepository = new TicketRepositoryMemory();
     const checkin = new Checkin({ ticketRepository });
     const input = {
-      id: '123',
+      id: '004',
       checkinDate: new Date('2022-01-01T10:00')
     };
     const ticket = checkin.execute(input);
     expect(ticket.checkinDate).toBe(input.checkinDate);
+  });
+
+  test('Should not create an existent ticket', () => {
+    const ticketRepository = new TicketRepositoryMemory();
+    const checkin = new Checkin({ ticketRepository });
+    const input = {
+      id: '003',
+      checkinDate: new Date('2022-01-01T15:00')
+    };
+
+    expect(() => checkin.execute(input)).toThrowError('Ticket already exist');
   });
 });

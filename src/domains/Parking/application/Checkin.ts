@@ -18,10 +18,11 @@ export class Checkin {
   }
 
   execute({ id, checkinDate }: CheckinExecuteParams): Ticket {
+    if (this._ticketRepository.getById(id)) {
+      throw new Error('Ticket already exist');
+    }
     const ticket = new Ticket({ id, checkinDate });
     this._ticketRepository.save(ticket);
-    const t = this._ticketRepository.getById(id);
-    if (!t) throw new Error('Could not found any ticket');
-    return t;
+    return ticket;
   }
 }

@@ -30,4 +30,15 @@ describe('Ticket', () => {
       new Error('You cannot create a ticket after 10:00pm')
     );
   });
+
+  test('Should not create a new ticket with a checkout date', () => {
+    const input = {
+      id: '123',
+      checkinDate: new Date('2022-01-01T10:00:00'),
+      checkoutDate: new Date('2022-01-01T11:00:00')
+    };
+    expect(() => new Ticket(input)).toThrow(
+      new Error('You cannot create a new ticket with checkout date')
+    );
+  });
 });
