@@ -28,18 +28,19 @@ export class Ticket {
     return this._checkoutDate;
   }
 
+  setCheckout(checkoutDate: Date) {
+    this._checkoutDate = checkoutDate;
+  }
+
   private _validate() {
+    if (!this._id) {
+      throw new Error('id is missing');
+    }
     if (!this._checkinDate) {
       throw new Error('Checkin date is missing');
     }
     if (this._checkoutDate) {
       throw new Error('You cannot create a new ticket with checkout date');
-    }
-    if (this._checkinDate.getHours() < 8) {
-      throw new Error('You cannot create a ticket before 08:00am');
-    }
-    if (this._checkinDate.getHours() >= 22) {
-      throw new Error('You cannot create a ticket after 10:00pm');
     }
   }
 }

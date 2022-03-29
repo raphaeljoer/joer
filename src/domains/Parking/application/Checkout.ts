@@ -1,27 +1,36 @@
 import { ITicketRepository } from '../domain/repositories/ITicketRepository';
+import { ITicketCalculator } from '../domain/services/ITicketCalculator';
 
 type CheckoutParams = {
   ticketRepository: ITicketRepository;
+  ticketCalculator: ITicketCalculator;
 };
 
-type CheckoutExecuteParams = {
+type CheckoutExecuteInput = {
   id: string;
   checkoutDate: Date;
 };
 
+type CheckoutExecuteOutput = {
+  amount: number;
+};
+
 export class Checkout {
   private _ticketRepository: ITicketRepository;
+  private _ticketCalculator: ITicketCalculator;
 
-  constructor({ ticketRepository }: CheckoutParams) {
+  constructor({ ticketRepository, ticketCalculator }: CheckoutParams) {
     this._ticketRepository = ticketRepository;
+    this._ticketCalculator = ticketCalculator;
   }
 
-  execute({ id, checkoutDate }: CheckoutExecuteParams) {
+  execute({ id, checkoutDate }: CheckoutExecuteInput): CheckoutExecuteOutput {
     const ticket = this._ticketRepository.getById(id);
     if (!ticket) throw new Error('Ticket not found');
-
-    const amount =
-      (checkoutDate.getHours() - ticket.checkinDate.getHours()) * 5;
+    const amount = this._ticketCalculator.calculate(
+      ticket.checkinDate,
+      checkoutDate
+    );
 
     return {
       amount
