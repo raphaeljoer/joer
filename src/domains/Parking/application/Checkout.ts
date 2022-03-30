@@ -29,7 +29,8 @@ export class Checkout {
     if (!ticket) throw new Error('Ticket not found');
     const amount = this._ticketCalculator.calculate(
       ticket.checkinDate,
-      checkoutDate
+      checkoutDate,
+      ticket.vehicle
     );
 
     return {

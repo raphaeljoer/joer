@@ -1,7 +1,7 @@
 import {
   VehicleSize,
   VehicleType
-} from './../../../../domains/Parking/enums/vehicle';
+} from '../../../../domains/Parking/enums/vehicle';
 import { FakeUUID } from './../../../../domains/Parking/infra/gateway/fakes/FakeUUID';
 import { Checkin } from '../../../../domains/Parking/application/Checkin';
 import { UUIDV4 } from './../../../../domains/Parking/infra/gateway/UUID';

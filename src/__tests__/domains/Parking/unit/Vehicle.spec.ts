@@ -1,7 +1,7 @@
 import {
   VehicleType,
   VehicleSize
-} from './../../../../domains/Parking/enums/vehicle';
+} from '../../../../domains/Parking/enums/vehicle';
 import { Vehicle } from '../../../../domains/Parking/domain/entities/Vehicle';
 
 describe('Vehicle', () => {
