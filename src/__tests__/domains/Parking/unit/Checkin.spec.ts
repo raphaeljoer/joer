@@ -1,7 +1,12 @@
+import {
+  VehicleSize,
+  VehicleType
+} from './../../../../domains/Parking/enums/vehicle';
 import { FakeUUID } from './../../../../domains/Parking/infra/gateway/fakes/FakeUUID';
 import { Checkin } from '../../../../domains/Parking/application/Checkin';
 import { UUIDV4 } from './../../../../domains/Parking/infra/gateway/UUID';
 import { TicketRepositoryMemory } from '../../../../domains/Parking/infra/repositories/memory/TicketRepositoryMemory';
+import { Vehicle } from '../../../../domains/Parking/domain/entities/Vehicle';
 
 describe('Checkin', () => {
   test('Should make checkin', () => {
@@ -47,5 +52,27 @@ describe('Checkin', () => {
       checkinDate: new Date('2022-01-01T10:00')
     };
     expect(() => checkin.execute(input)).toThrowError('Ticket already exist');
+  });
+
+  test('Should make checkin with a vehicle', () => {
+    const uuid = new UUIDV4();
+    const ticketRepository = new TicketRepositoryMemory();
+    const checkin = new Checkin({ uuid, ticketRepository });
+    const vehicle = new Vehicle({
+      plate: 'ABC-1234',
+      size: VehicleSize.SMALL,
+      type: VehicleType.CAR
+    });
+    const input = {
+      checkinDate: new Date('2022-01-01T10:00'),
+      vehicle
+    };
+    const ticket = checkin.execute(input);
+
+    expect(ticket.vehicle).toBeDefined();
+    expect(ticket.vehicle).toBe(vehicle);
+    expect(ticket.vehicle?.plate).toBe('ABC-1234');
+    expect(ticket.vehicle?.type).toBe('CAR');
+    expect(ticket.vehicle?.size).toBe('SMALL');
   });
 });

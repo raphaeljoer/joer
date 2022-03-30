@@ -1,4 +1,9 @@
+import {
+  VehicleSize,
+  VehicleType
+} from './../../../../domains/Parking/enums/vehicle';
 import { Ticket } from '../../../../domains/Parking/domain/entities/Ticket';
+import { Vehicle } from '../../../../domains/Parking/domain/entities/Vehicle';
 
 describe('Ticket', () => {
   test('Should not create a ticket without a id', () => {
@@ -27,5 +32,23 @@ describe('Ticket', () => {
     expect(() => new Ticket(input)).toThrow(
       new Error('You cannot create a new ticket with checkout date')
     );
+  });
+
+  test('Should set a vehicle in a ticket', () => {
+    const input = {
+      id: '123',
+      checkinDate: new Date('2022-01-01T10:00:00')
+    };
+    const ticket = new Ticket(input);
+    const vehicle = new Vehicle({
+      plate: 'ABC-1234',
+      type: VehicleType.CAR,
+      size: VehicleSize.SMALL
+    });
+    ticket.setVehicle(vehicle);
+    expect(ticket.vehicle).toBeDefined();
+    expect(ticket.vehicle?.plate).toBe('ABC-1234');
+    expect(ticket.vehicle?.type).toBe('CAR');
+    expect(ticket.vehicle?.size).toBe('SMALL');
   });
 });

@@ -1,9 +1,11 @@
+import { Vehicle } from './../domain/entities/Vehicle';
 import { IUUID } from './../domain/gateway/IUUID';
 import { Ticket } from '../domain/entities/Ticket';
 import { ITicketRepository } from '../domain/repositories/ITicketRepository';
 
 type CheckinExecuteParams = {
   checkinDate: Date;
+  vehicle?: Vehicle;
 };
 
 type CheckinParams = {
@@ -20,7 +22,7 @@ export class Checkin {
     this._ticketRepository = ticketRepository;
   }
 
-  execute({ checkinDate }: CheckinExecuteParams): Ticket {
+  execute({ checkinDate, vehicle }: CheckinExecuteParams): Ticket {
     const checkinHour = checkinDate.getHours();
     if (checkinHour < 8) {
       throw new Error('You cannot make checkin before 08:00am');
@@ -32,6 +34,7 @@ export class Checkin {
       throw new Error('Ticket already exist');
     }
     const ticket = new Ticket({ id: this._id, checkinDate });
+    if (vehicle) ticket.setVehicle(vehicle);
     this._ticketRepository.save(ticket);
     return ticket;
   }
