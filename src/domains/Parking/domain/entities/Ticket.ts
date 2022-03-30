@@ -24,14 +24,6 @@ export class Ticket {
     return this._checkinDate;
   }
 
-  get checkoutDate() {
-    return this._checkoutDate;
-  }
-
-  setCheckout(checkoutDate: Date) {
-    this._checkoutDate = checkoutDate;
-  }
-
   private _validate() {
     if (!this._id) {
       throw new Error('id is missing');
