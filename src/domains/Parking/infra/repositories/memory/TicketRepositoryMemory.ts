@@ -17,16 +17,28 @@ export class TicketRepositoryMemory implements ITicketRepository {
   private _tickets: Ticket[];
 
   constructor() {
-    const vehicle = new Vehicle({
+    const vehicleLargerCar = new Vehicle({
       plate: 'ABC-1234',
       type: VehicleType.CAR,
       size: VehicleSize.LARGE
     });
+    const vehicleSmallCar = new Vehicle({
+      plate: 'ABC-1234',
+      type: VehicleType.CAR,
+      size: VehicleSize.SMALL
+    });
+    const vehicleMotorcycle = new Vehicle({
+      plate: 'ABC-1234',
+      type: VehicleType.MOTORCYCLE,
+      size: VehicleSize.SMALL
+    });
     this._tickets = [
       makeTicket('001', new Date('2022-01-01T10:00'), undefined),
-      makeTicket('002', new Date('2022-01-01T11:00'), undefined),
-      makeTicket('003', new Date('2022-01-01T12:00'), undefined),
-      makeTicket('004', new Date('2022-01-01T13:00'), vehicle)
+      makeTicket('002', new Date('2022-01-01T10:00'), undefined),
+      makeTicket('003', new Date('2022-01-01T10:00'), undefined),
+      makeTicket('004', new Date('2022-01-01T10:00'), vehicleLargerCar),
+      makeTicket('005', new Date('2022-01-01T10:00'), vehicleSmallCar),
+      makeTicket('006', new Date('2022-01-01T10:00'), vehicleMotorcycle)
     ];
   }
 

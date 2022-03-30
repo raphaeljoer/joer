@@ -26,15 +26,27 @@ describe('Checkout', () => {
     expect(ticket.amount).toBe(15);
   });
 
-  test('Should calculate the value for 3 hours for larger car', () => {
+  test('Should calculate ticket value for 3 hours for larger car', () => {
     const ticketRepository = new TicketRepositoryMemory();
     const ticketCalculator = new TicketCalculator();
     const checkout = new Checkout({ ticketRepository, ticketCalculator });
     const input = {
       id: '004',
-      checkoutDate: new Date('2022-01-01T16:00')
+      checkoutDate: new Date('2022-01-01T13:00')
     };
     const ticket = checkout.execute(input);
     expect(ticket.amount).toBe(21);
+  });
+
+  test('Should calculate ticket value for 3 hours for a motorcycle', () => {
+    const ticketRepository = new TicketRepositoryMemory();
+    const ticketCalculator = new TicketCalculator();
+    const checkout = new Checkout({ ticketRepository, ticketCalculator });
+    const input = {
+      id: '006',
+      checkoutDate: new Date('2022-01-01T13:00')
+    };
+    const ticket = checkout.execute(input);
+    expect(ticket.amount).toBe(12);
   });
 });
